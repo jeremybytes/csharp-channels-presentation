@@ -1,0 +1,39 @@
+﻿<Window x:Class="DigitDisplay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Digit Display" Height="590" Width="860" 
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="10,15,0,0"
+                    HorizontalAlignment="Center">
+            <TextBlock Text="Record Count:" Margin="0,0,10,0" />
+            <TextBox x:Name="RecordCount" Text="325" Width="75" FontWeight="Bold"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="10,15,0,0"
+                    HorizontalAlignment="Center">
+            <TextBlock Text="Offset: " Margin="0,0,10,0" />
+            <TextBox x:Name="Offset" Text="0" Width="75" FontWeight="Bold"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2" Margin="0,15,0,0"
+                    HorizontalAlignment="Center">
+            <TextBlock Text="Output Size: " Margin="0,0,10,0" />
+            <TextBox x:Name="OutputSize" Text="1.0" Width="75" FontWeight="Bold"/>
+        </StackPanel>
+        <Button x:Name="GoButton" Content="Go" Grid.Row="0" Grid.Column="3"
+                FontSize="24" Margin="0,10,30,0" Width="100"
+                HorizontalAlignment="Right"
+                Click="GoButton_Click"/>
+        <StackPanel x:Name="LeftPanel" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <StackPanel x:Name="RightPanel" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"/>
+    </Grid>
+</Window>

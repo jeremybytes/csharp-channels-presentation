@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="DigitDisplay.ParallelChannelRecognizerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DigitDisplay"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="ClassifierText" Grid.Row="0"
+                   FontSize="24" HorizontalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal"  Grid.Row="1">
+            <TextBlock x:Name="TimingBlock" FontSize="18"
+                       HorizontalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBlock x:Name="ErrorBlock" FontSize="18"
+                       HorizontalAlignment="Center" Text="Errors: 0"/>
+        </StackPanel>
+        <WrapPanel x:Name="DigitsBox" Grid.Row="2" />
+        <Canvas x:Name="DigitsCanvas" Grid.Row="2" />
+    </Grid>
+</UserControl>
