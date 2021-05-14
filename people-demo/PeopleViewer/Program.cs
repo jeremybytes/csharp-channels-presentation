@@ -12,12 +12,12 @@ namespace PeopleViewer
             var start = DateTimeOffset.Now;
             Console.Clear();
 
-            var ids = PersonReader.GetIds();
+            var ids = await PersonReader.GetIdsAsync();
 
             Console.WriteLine(ids.ToDelimitedString(","));
 
             // Option 1 = Run Synchronously
-            //RunSynchronously(ids);
+            //await RunSynchronously(ids);
 
             // Option 2 = Task w/ Continuation
             //await RunWithContinuation(ids);
@@ -32,11 +32,11 @@ namespace PeopleViewer
         }
 
         // Option 1
-        static void RunSynchronously(List<int> ids)
+        static async Task RunSynchronously(List<int> ids)
         {
             foreach (var id in ids)
             {
-                var person = PersonReader.GetPerson(id);
+                var person = await PersonReader.GetPersonAsync(id);
                 DisplayPerson(person);
             }
         }
@@ -48,19 +48,17 @@ namespace PeopleViewer
 
             foreach (var id in ids)
             {
-                Task<Person> currentTask = Task.Run(() =>
-                {
-                    return PersonReader.GetPerson(id);
-                });
+                Task<Person> currentTask = PersonReader.GetPersonAsync(id);
 
                 Task continuation = currentTask.ContinueWith(t =>
                 {
-                    Person person = t.Result;
+                    var person = t.Result;
                     lock (allTasks)
                     {
                         DisplayPerson(person);
                     }
                 });
+
                 allTasks.Add(continuation);
             }
             await Task.WhenAll(allTasks);
@@ -72,29 +70,17 @@ namespace PeopleViewer
             var channel = Channel.CreateBounded<Person>(10);
 
             var consumer = ShowData(channel.Reader);
-
-            var producer = FetchData(ids, channel.Writer);
+            var producer = ProduceData(ids, channel.Writer);
+ 
             await producer;
-
-            channel.Writer.Complete();
-
             await consumer;
-        }
-
-        static Task FetchData(List<int> ids, ChannelWriter<Person> writer)
-        {
-            Parallel.ForEach(ids, id =>
-            {
-                var person = PersonReader.GetPerson(id);
-                writer.WriteAsync(person);
-            });
-            return Task.CompletedTask;
         }
 
         static async Task ShowData(ChannelReader<Person> reader)
         {
-            await foreach(Person person in reader.ReadAllAsync())
+            await foreach(var person in reader.ReadAllAsync())
             {
+                //await Task.Delay(200);
                 DisplayPerson(person);
             }
 
@@ -105,6 +91,24 @@ namespace PeopleViewer
             //        DisplayPerson(person);
             //    }
             //}
+        }
+
+        static async Task ProduceData(List<int> ids, ChannelWriter<Person> writer)
+        {
+            var allTasks = new List<Task>();
+            foreach (int id in ids)
+            {
+                var currentTask = FetchRecord(id, writer);
+                allTasks.Add(currentTask);
+            }
+            await Task.WhenAll(allTasks);
+            writer.Complete();
+        }
+
+        static async Task FetchRecord(int id, ChannelWriter<Person> writer)
+        {
+            var person = await PersonReader.GetPersonAsync(id);
+            await writer.WriteAsync(person);
         }
 
         static void DisplayPerson(Person person)

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace PeopleViewer
 {
@@ -19,37 +19,33 @@ namespace PeopleViewer
 
     public static class PersonReader
     {
-        private static string BaseAddress = "http://localhost:9874" ;
-        public static JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        private static HttpClient client = new() { BaseAddress = new Uri("http://localhost:9874") };
+        private static JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-        public static List<int> GetIds()
+        public static async Task<List<int>> GetIdsAsync()
         {
-            WebClient client = new WebClient();
-            string address = $"{BaseAddress}/people/ids";
-            string reply = client.DownloadString(address);
-            try
+            HttpResponseMessage response =
+                await client.GetAsync("people/ids").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
             {
-                return JsonSerializer.Deserialize<List<int>>(reply, options);
+                var stringResult =
+                    await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return JsonSerializer.Deserialize<List<int>>(stringResult);
             }
-            catch (Exception)
-            {
-                throw new HttpRequestException($"Error parsing data from ({address}): {reply}");
-            }
+            throw new HttpRequestException($"Unable to complete request: status code {response.StatusCode}");
         }
 
-        public static Person GetPerson(int id)
+        public static async Task<Person> GetPersonAsync(int id)
         {
-            WebClient client = new WebClient();
-            string address = $"{BaseAddress}/people/{id}";
-            string reply = client.DownloadString(address);
-            try
+            HttpResponseMessage response =
+                await client.GetAsync($"people/{id}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
             {
-                return JsonSerializer.Deserialize<Person>(reply, options);
+                var stringResult =
+                    await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return JsonSerializer.Deserialize<Person>(stringResult, options);
             }
-            catch (Exception)
-            {
-                throw new HttpRequestException($"Error parsing data from ({address}): {reply}");
-            }
+            throw new HttpRequestException($"Unable to complete request: status code {response.StatusCode}");
         }
     }
 }
