@@ -66,12 +66,9 @@ namespace DigitDisplay
 
         private async Task Listen(ChannelReader<Result> reader)
         {
-            while (await reader.WaitToReadAsync())
+            await foreach (Result result in reader.ReadAllAsync())
             {
-                while (reader.TryRead(out Result result))
-                {
-                    CreateUIElements(result.Prediction, result.Actual, result.ImageString, DigitsBox);
-                }
+                CreateUIElements(result.Prediction, result.Actual, result.ImageString, DigitsBox);
             }
         }
 
@@ -111,6 +108,7 @@ namespace DigitDisplay
             await listener;
         }
 
+        #region UI Controls
         private void CreateUIElements(string prediction, string actual, string imageData,
             Panel panel)
         {
@@ -194,5 +192,6 @@ namespace DigitDisplay
 
             return null;
         }
+        #endregion
     }
 }
