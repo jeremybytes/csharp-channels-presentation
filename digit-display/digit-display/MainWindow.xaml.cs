@@ -35,15 +35,26 @@ namespace DigitDisplay
                 "Manhattan Classifier", displayMultipler);
             LeftPanel.Children.Add(panel1Recognizer);
 
+            MessageBox.Show("Ready to start panel #1");
+            await panel1Recognizer.Start(rawValidation, manhattanClassifier);
+
+            // START: Use this section to compare parallel / non-parallel
             var panel2Recognizer = new NonParallelRecognizerControl(
                 "Manhattan Classifier", displayMultipler);
             RightPanel.Children.Add(panel2Recognizer);
 
-            MessageBox.Show("Ready to start panel #1");
-            await panel1Recognizer.Start(rawValidation, manhattanClassifier);
-
             MessageBox.Show("Ready to start panel #2");
             await panel2Recognizer.Start(rawValidation, manhattanClassifier);
+            // END: Use this section to compare parallel / non-parallel
+
+            // START: Use this section to compare Manhattan / Euclidean distance algos
+            //var panel2Recognizer = new ParallelChannelRecognizerControl(
+            //    "Euclidean Classifier", displayMultipler);
+            //RightPanel.Children.Add(panel2Recognizer);
+
+            //MessageBox.Show("Ready to start panel #2");
+            //await panel2Recognizer.Start(rawValidation, euclideanClassifier);
+            // END: Use this section to compare Manhattan / Euclidean distance algos
         }
     }
 }
