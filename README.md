@@ -60,4 +60,12 @@ For more additional information on this project (as well as a set of console app
 * [An Introduction to Channels in C#](https://jeremybytes.blogspot.com/2021/02/an-introduction-to-channels-in-c.html) - Jeremy Clark  
 * [What's the Difference between Channel and ConcurrentQueue in C#](https://jeremybytes.blogspot.com/2021/02/whats-difference-between-channel-and.html) - Jeremy Clark  
 * [An Introduction to System.Threading.Channels](https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/) - Stephen Toub  
-* [Channel&lt;T&gt; Class](https://docs.microsoft.com/en-us/dotnet/api/system.threading.channels.channel-1?view=net-5.0) - Microsoft Docs
+* [Channel&lt;T&gt; Class](https://docs.microsoft.com/en-us/dotnet/api/system.threading.channels.channel-1?view=net-5.0) - Microsoft Docs  
+
+## Additional Repositories
+* [I'll Get Back to You: Task, Await, and Asynchronous Methods in C#](https://github.com/jeremybytes/using-task-core3)  
+Presentation resources for understanding Task & await. Includes slides, code, videos, and articles
+* [Understanding Asynchronous Programming in C# - Virtual Training](https://github.com/jeremybytes/understanding-async-programming)  
+Virtual training resources for understanding Task, await, and parallel programming. Includes slides, code samples, and articles
+* [Workshop: Asynchronous Programming in C#](https://github.com/jeremybytes/async-workshop-nov2020)  
+Workshop resources for understanding Task, await, and parallel programming (including self-guided, hands-on labs). Includes slides, code samples, labs, and articles
