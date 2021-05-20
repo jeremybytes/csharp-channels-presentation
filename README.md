@@ -57,6 +57,7 @@ For more additional information on this project (as well as a set of console app
 
 
 ## Resources
+* Recorded Presentation: [Using Channels in C# to Enhance Concurrent Code](https://www.youtube.com/watch?v=YxDORrTvIGM) - Dot Net North (May 2021)
 * [An Introduction to Channels in C#](https://jeremybytes.blogspot.com/2021/02/an-introduction-to-channels-in-c.html) - Jeremy Clark  
 * [What's the Difference between Channel and ConcurrentQueue in C#](https://jeremybytes.blogspot.com/2021/02/whats-difference-between-channel-and.html) - Jeremy Clark  
 * [An Introduction to System.Threading.Channels](https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/) - Stephen Toub  
