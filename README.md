@@ -6,7 +6,7 @@ Producer/consumer problems show up in a lot of programming scenarios, including 
 Recorded Presentation: [Using Channels in C# to Enhance Concurrent Code](https://www.youtube.com/watch?v=YxDORrTvIGM) - Dot Net North (May 2021)
 
 ## Project Layout
-To build and run the code, you will need to have .NET 5 installed on your machine. The demo project will run wherever .NET 5 will run (Windows, macOS, Linux).
+To build and run the code, you will need to have .NET 6 installed on your machine. The demo project will run wherever .NET 6 will run (Windows, macOS, Linux).
 
 **/people-demo/PeopleViewer** contains a console application that uses channels program  
 **/people-demo/People.Service** contains a service (used by the console application)  
@@ -14,7 +14,7 @@ To build and run the code, you will need to have .NET 5 installed on your machin
 The "PeopleViewer" program is a console application that calls the service and displays the output. In order to show concurrency, the application gets each record individually.
 
 ## Development Environments
-**Visual Studio 2019**  
+**Visual Studio 2022**  
 The "ChannelsDemo.sln" contains both of the projects listed above. The solution is set to automatically start both the service and the console application. So, hit "F5" to start the application & service.
 
 **Visual Studio Code**  
