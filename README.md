@@ -1,4 +1,4 @@
-# Using Channels in C# to Enhance Concurrent Code
+# Better Parallel Code with C# Channels
 
 ## Abstract  
 Producer/consumer problems show up in a lot of programming scenarios, including data processing and machine learning. Channels were added to .NET Core 3.0 and give us a thread-safe way to communicate between producers and consumers, and we can run them all concurrently. In this presentation, we will explore channels by comparing parallel tasks with continuations to using a producer/consumer model. In the end, we'll have another tool in our toolbox to help us with concurrent programming.  
