@@ -1,47 +1,41 @@
 ﻿using System.Drawing;
 using System.Windows.Controls;
 
-namespace DigitDisplay
+namespace DigitDisplay;
+
+public record DetailRecord(string Prediction, string Actual, Bitmap Image);
+
+public partial class DetailControl : UserControl
 {
-    public class DetailRecord
+    private DetailRecord? data;
+    public DetailRecord? Data
     {
-        public string prediction { get; set; }
-        public string actual { get; set; }
-        public Bitmap image { get; set; }
+        get { return data; }
+        set
+        {
+            data = value;
+            UpdateUI();
+        }
     }
 
-    public partial class DetailControl : UserControl
+
+    public DetailControl(DetailRecord record)
     {
-        private DetailRecord data;
-        public DetailRecord Data
-        {
-            get { return data; }
-            set
-            {
-                data = value;
-                UpdateUI();
-            }
-        }
+        InitializeComponent();
+        Data = record;
+    }
 
+    private void UpdateUI()
+    {
+        var multiplier = 4;
+        DigitImage.Source = data!.Image.ToWpfBitmap();
+        DigitImage.Width = DigitImage.Source.Width * multiplier;
+        DigitImage.Height = DigitImage.Source.Height * multiplier;
 
-        public DetailControl(DetailRecord record)
-        {
-            InitializeComponent();
-            Data = record;
-        }
+        Prediction.Text = data.Prediction;
+        Prediction.Height = DigitImage.Height;
+        Prediction.Width = DigitImage.Width;
 
-        private void UpdateUI()
-        {
-            var multiplier = 4;
-            DigitImage.Source = data.image.ToWpfBitmap();
-            DigitImage.Width = DigitImage.Source.Width * multiplier;
-            DigitImage.Height = DigitImage.Source.Height * multiplier;
-
-            Prediction.Text = data.prediction;
-            Prediction.Height = DigitImage.Height;
-            Prediction.Width = DigitImage.Width;
-
-            Actual.Text = $"Actual: {data.actual}";
-        }
+        Actual.Text = $"Actual: {data.Actual}";
     }
 }

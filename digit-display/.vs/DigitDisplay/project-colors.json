@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "ac8b6f47-0dee-47b2-ac39-7ff591b92b1b": {
+      "ProjectGuid": "ac8b6f47-0dee-47b2-ac39-7ff591b92b1b",
+      "DisplayName": "digit-display",
+      "ColorIndex": 0
+    },
+    "b378c036-3fb5-4147-9f45-d9648da8c155": {
+      "ProjectGuid": "b378c036-3fb5-4147-9f45-d9648da8c155",
+      "DisplayName": "recognizers",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
