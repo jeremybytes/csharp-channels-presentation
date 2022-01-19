@@ -34,7 +34,6 @@ class Program
         foreach (var id in ids)
         {
             var person = await PersonReader.GetPersonAsync(id);
-            if (person == null) return;
             DisplayPerson(person);
         }
     }
@@ -46,13 +45,11 @@ class Program
 
         foreach (var id in ids)
         {
-            Task<Person?> currentTask = PersonReader.GetPersonAsync(id);
+            Task<Person> currentTask = PersonReader.GetPersonAsync(id);
 
             Task continuation = currentTask.ContinueWith(t =>
             {
                 var person = t.Result;
-                if (person == null) return;
-
                 lock (allTasks)
                 {
                     DisplayPerson(person);
@@ -80,17 +77,8 @@ class Program
     {
         await foreach (var person in reader.ReadAllAsync())
         {
-            //await Task.Delay(200);
             DisplayPerson(person);
         }
-
-        //while (await reader.WaitToReadAsync())
-        //{
-        //    if (reader.TryRead(out Person person))
-        //    {
-        //        DisplayPerson(person);
-        //    }
-        //}
     }
 
     static async Task ProduceData(List<int> ids, ChannelWriter<Person> writer)
@@ -108,7 +96,6 @@ class Program
     static async Task FetchRecord(int id, ChannelWriter<Person> writer)
     {
         var person = await PersonReader.GetPersonAsync(id);
-        if (person == null) return;
         await writer.WriteAsync(person);
     }
 

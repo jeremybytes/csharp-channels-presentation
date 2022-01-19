@@ -15,8 +15,8 @@ public record Person(int ID, string GivenName, string FamilyName,
 
 public static class PersonReader
 {
-    private static HttpClient client = new() { BaseAddress = new Uri("http://localhost:9874") };
-    private static JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+    private static readonly HttpClient client = new() { BaseAddress = new Uri("http://localhost:9874") };
+    private static readonly JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
 
     public static async Task<List<int>> GetIdsAsync()
     {
@@ -32,7 +32,7 @@ public static class PersonReader
         return result ?? new List<int>();
     }
 
-    public static async Task<Person?> GetPersonAsync(int id)
+    public static async Task<Person> GetPersonAsync(int id)
     {
         HttpResponseMessage response =
             await client.GetAsync($"people/{id}").ConfigureAwait(false);
@@ -42,6 +42,7 @@ public static class PersonReader
 
         var stringResult =
             await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        return JsonSerializer.Deserialize<Person>(stringResult, options);
+        var result = JsonSerializer.Deserialize<Person>(stringResult, options);
+        return result ?? new Person(0, "", "", DateTime.Now, 0, "");
     }
 }
