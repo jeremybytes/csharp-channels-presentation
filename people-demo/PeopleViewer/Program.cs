@@ -13,8 +13,8 @@ class Program
 
         Console.WriteLine(ids.ToDelimitedString(","));
 
-        // Option 1 = Run Synchronously
-        //await RunSynchronously(ids);
+        // Option 1 = Run Sequentially
+        //await RunSequentiallyy(ids);
 
         // Option 2 = Task w/ Continuation
         //await RunWithContinuation(ids);
@@ -29,7 +29,7 @@ class Program
     }
 
     // Option 1
-    static async Task RunSynchronously(List<int> ids)
+    static async Task RunSequentially(List<int> ids)
     {
         foreach (var id in ids)
         {
