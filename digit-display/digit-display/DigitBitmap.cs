@@ -4,18 +4,12 @@ namespace DigitDisplay;
 
 public class DigitBitmap
 {
-    public static int[][] GenerateDigitArray(string input)
+    public static int[][] GenerateDigitArray(int[] input)
     {
-        var rawData = input.Split(',');
-        var integerData = rawData
-            //.Skip(1)
-            .Select(x => Convert.ToInt32(x))
-            .ToArray();
-
         var output = new int[28][];
         for (int i = 0; i < 28; i++)
         {
-            output[i] = integerData
+            output[i] = input
                 .Skip(i * 28)
                 .Take(28)
                 .ToArray();
@@ -23,7 +17,7 @@ public class DigitBitmap
         return output;
     }
 
-    public static Bitmap GetBitmapFromRawData(string input)
+    public static Bitmap GetBitmapFromRawData(int[] input)
     {
         var digitArray = GenerateDigitArray(input);
 

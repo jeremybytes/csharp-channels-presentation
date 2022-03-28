@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace DigitDisplay;
 
-public record DetailRecord(string Prediction, string Actual, Bitmap Image);
+public record DetailRecord(int Prediction, int Actual, Bitmap Image);
 
 public partial class DetailControl : UserControl
 {
@@ -32,7 +32,7 @@ public partial class DetailControl : UserControl
         DigitImage.Width = DigitImage.Source.Width * multiplier;
         DigitImage.Height = DigitImage.Source.Height * multiplier;
 
-        Prediction.Text = data.Prediction;
+        Prediction.Text = $"{data.Prediction}";
         Prediction.Height = DigitImage.Height;
         Prediction.Width = DigitImage.Width;
 

@@ -10,7 +10,22 @@
       "ProjectGuid": "b378c036-3fb5-4147-9f45-d9648da8c155",
       "DisplayName": "recognizers",
       "ColorIndex": 1
+    },
+    "5420ab9f-cdd2-40e5-88ad-c2efc39bc7e5": {
+      "ProjectGuid": "5420ab9f-cdd2-40e5-88ad-c2efc39bc7e5",
+      "DisplayName": "recognizer",
+      "ColorIndex": 2
+    },
+    "e5d6fa00-d30c-4037-9009-65778090d9fb": {
+      "ProjectGuid": "e5d6fa00-d30c-4037-9009-65778090d9fb",
+      "DisplayName": "recognizer",
+      "ColorIndex": 3
+    },
+    "992ef0c6-b214-421e-821a-b37e741a6d3f": {
+      "ProjectGuid": "992ef0c6-b214-421e-821a-b37e741a6d3f",
+      "DisplayName": "digit-console",
+      "ColorIndex": 4
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 5
 }

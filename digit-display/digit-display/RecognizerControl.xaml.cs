@@ -1,70 +1,50 @@
-﻿using System.Drawing;
+﻿using digits;
+using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Media;
-using static Recognizers;
 
 namespace DigitDisplay;
 
-public partial class ParallelTaskRecognizerControl : UserControl
+public abstract partial class RecognizerControl : UserControl
 {
-    #region Control Setup
+    public async Task Start(Record[] rawData, Classifier classifier)
+    {
+        timer.Start();
+        await Run(rawData, classifier);
+        timer.Stop();
+    }
 
-    private DetailControl? DetailPopup;
-    private readonly double DisplayMultiplier;
+    protected abstract Task Run(Record[] rawData, Classifier classifier);
 
-    private readonly string controlTitle;
-
-    private DateTimeOffset startTime;
-    private readonly SolidColorBrush redBrush = new(System.Windows.Media.Color.FromRgb(255, 150, 150));
-    private readonly SolidColorBrush whiteBrush = new(System.Windows.Media.Color.FromRgb(255, 255, 255));
-    private int errors = 0;
-
-    public ParallelTaskRecognizerControl(string controlTitle,
+    public RecognizerControl(string controlTitle,
         double displayMultiplier = 1.0)
     {
         InitializeComponent();
         this.controlTitle = controlTitle;
         DisplayMultiplier = displayMultiplier;
-
-        Loaded += RecognizerControl_Loaded;
+        Loaded += (s, e) => ClassifierText.Text = this.controlTitle;
     }
 
-    private void RecognizerControl_Loaded(object sender, RoutedEventArgs e)
+    private DetailControl? DetailPopup;
+    private readonly double DisplayMultiplier;
+
+    protected record RecognizerResult(string Prediction, string Actual, Bitmap Image);
+
+    protected string controlTitle;
+
+    //protected DateTimeOffset startTime;
+    protected Stopwatch timer = new();
+    protected readonly SolidColorBrush redBrush = new(System.Windows.Media.Color.FromRgb(255, 150, 150));
+    protected readonly SolidColorBrush whiteBrush = new(System.Windows.Media.Color.FromRgb(255, 255, 255));
+    private int errors = 0;
+
+
+    protected void CreateUIElements(Prediction prediction, Panel panel)
     {
-        ClassifierText.Text = controlTitle + " (Parallel Task)";
-    }
+        int predicted = prediction.Predicted.Value;
+        int actual = prediction.Actual.Value;
+        int[] imageData = prediction.Actual.Image;
 
-    #endregion
-
-    public Task Start(string[] rawData, FSharpFunc<int[], Observation> classifier)
-    {
-        var allTasks = new List<Task>();
-        foreach (var imageString in rawData)
-        {
-            int actual = imageString.Split(',').Select(x => Convert.ToInt32(x)).First();
-            int[] ints = imageString.Split(',').Select(x => Convert.ToInt32(x)).Skip(1).ToArray();
-
-            var task = Task.Run<Observation>(() =>
-            {
-                return Recognizers.predict<Observation>(ints, classifier);
-            }
-            );
-            allTasks.Add(task);
-            var continuation = task.ContinueWith(t =>
-                {
-                    CreateUIElements(t.Result.Label, actual.ToString(), imageString, DigitsBox);
-                },
-                TaskScheduler.FromCurrentSynchronizationContext()
-            );
-            allTasks.Add(continuation);
-        }
-        Task.WhenAny(allTasks).ContinueWith(t => startTime = DateTime.Now);
-        return Task.WhenAll(allTasks);
-    }
-
-    #region UI Controls
-    private void CreateUIElements(string prediction, string actual, string imageData,
-        Panel panel)
-    {
         Bitmap image = DigitBitmap.GetBitmapFromRawData(imageData);
 
         var imageControl = new System.Windows.Controls.Image
@@ -81,13 +61,13 @@ public partial class ParallelTaskRecognizerControl : UserControl
             Width = imageControl.Width,
             FontSize = 12 * DisplayMultiplier,
             TextAlignment = TextAlignment.Center,
-            Text = prediction
+            Text = $"{predicted}",
         };
 
         var button = new Button();
         var backgroundBrush = whiteBrush;
         button.Background = backgroundBrush;
-        button.Tag = new DetailRecord(prediction, actual, image);
+        button.Tag = new DetailRecord(predicted, actual, image);
         button.MouseEnter += Button_MouseEnter;
         button.MouseLeave += Button_MouseLeave;
 
@@ -97,7 +77,7 @@ public partial class ParallelTaskRecognizerControl : UserControl
         };
         button.Content = buttonContent;
 
-        if (prediction != actual)
+        if (predicted != actual)
         {
             button.Background = redBrush;
             errors++;
@@ -109,8 +89,8 @@ public partial class ParallelTaskRecognizerControl : UserControl
 
         panel.Children.Add(button);
 
-        TimeSpan duration = DateTimeOffset.Now - startTime;
-        TimingBlock.Text = $"Duration (seconds): {duration.TotalSeconds:0}";
+        TimeSpan duration = timer.Elapsed;
+        TimingBlock.Text = $"Duration (seconds): {duration:s\\.fff}";
     }
 
     private void Button_MouseEnter(object sender, MouseEventArgs e)
@@ -140,5 +120,4 @@ public partial class ParallelTaskRecognizerControl : UserControl
     {
         DetailPopup!.Visibility = Visibility.Hidden;
     }
-    #endregion
 }

@@ -1,4 +1,6 @@
-﻿namespace DigitDisplay;
+﻿using digits;
+
+namespace DigitDisplay;
 
 public partial class MainWindow : Window
 {
@@ -21,13 +23,29 @@ public partial class MainWindow : Window
         int recordCount = int.Parse(RecordCount.Text);
         double displayMultipler = double.Parse(OutputSize.Text);
 
-        string[] rawTrain = await Task.Run(() => Loader.trainingReader(fileName, offset, recordCount));
-        string[] rawValidation = await Task.Run(() => Loader.validationReader(fileName, offset, recordCount));
+        (Record[] rawTrain, Record[] rawValidation) = await Task.Run(() => FileLoader.GetData(fileName, offset, recordCount));
 
-        var manhattanClassifier = Recognizers.manhattanClassifier(rawTrain);
-        var euclideanClassifier = Recognizers.euclideanClassifier(rawTrain);
+        var manhattanClassifier = new ManhattanClassifier(rawTrain);
+        var euclideanClassifier = new EuclideanClassifier(rawTrain);
+        var k5EuclideanClassifier = new K5EuclideanClassifier(rawTrain);
 
         // START: Use this section to compare parallel / non-parallel
+        var panel1Recognizer = new ParallelChannelRecognizerControl(
+            "Euclidean Classifier", displayMultipler);
+        LeftPanel.Children.Add(panel1Recognizer);
+
+        MessageBox.Show("Ready to start panel #1");
+        await panel1Recognizer.Start(rawValidation, euclideanClassifier);
+
+        var panel2Recognizer = new NonParallelRecognizerControl(
+            "Euclidean Classifier", displayMultipler);
+        RightPanel.Children.Add(panel2Recognizer);
+
+        MessageBox.Show("Ready to start panel #2");
+        await panel2Recognizer.Start(rawValidation, euclideanClassifier);
+        // END: Use this section to compare parallel / non-parallel
+
+        // START: Use this section to compare Manhattan / Euclidean distance algos
         //var panel1Recognizer = new ParallelChannelRecognizerControl(
         //    "Manhattan Classifier", displayMultipler);
         //LeftPanel.Children.Add(panel1Recognizer);
@@ -35,15 +53,6 @@ public partial class MainWindow : Window
         //MessageBox.Show("Ready to start panel #1");
         //await panel1Recognizer.Start(rawValidation, manhattanClassifier);
 
-        var panel2Recognizer = new NonParallelRecognizerControl(
-            "Manhattan Classifier", displayMultipler);
-        RightPanel.Children.Add(panel2Recognizer);
-
-        MessageBox.Show("Ready to start panel #2");
-        await panel2Recognizer.Start(rawValidation, manhattanClassifier);
-        // END: Use this section to compare parallel / non-parallel
-
-        // START: Use this section to compare Manhattan / Euclidean distance algos
         //var panel2Recognizer = new ParallelChannelRecognizerControl(
         //    "Euclidean Classifier", displayMultipler);
         //RightPanel.Children.Add(panel2Recognizer);
