@@ -6,7 +6,7 @@ Producer/consumer problems show up in a lot of programming scenarios, including 
 Recorded Presentation: [Using Channels in C# to Enhance Concurrent Code](https://www.youtube.com/watch?v=YxDORrTvIGM) - Dot Net North (May 2021)
 
 ## Project Layout
-To build and run the code, you will need to have .NET 6 installed on your machine. The demo project will run wherever .NET 6 will run (Windows, macOS, Linux).
+To build and run the code, you will need to have .NET 7 installed on your machine. The demo project will run wherever .NET 7 will run (Windows, macOS, Linux).
 
 **/people-demo/PeopleViewer** contains a console application that uses channels program  
 **/people-demo/People.Service** contains a service (used by the console application)  

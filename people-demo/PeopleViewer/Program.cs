@@ -14,7 +14,7 @@ class Program
         Console.WriteLine(ids.ToDelimitedString(","));
 
         // Option 1 = Run Sequentially
-        //await RunSequentiallyy(ids);
+        //await RunSequentially(ids);
 
         // Option 2 = Task w/ Continuation
         //await RunWithContinuation(ids);
@@ -75,6 +75,14 @@ class Program
 
     static async Task ShowData(ChannelReader<Person> reader)
     {
+        //while (await reader.WaitToReadAsync())
+        //{
+        //    while (reader.TryRead(out Person? person))
+        //    {
+        //        DisplayPerson(person);
+        //    }
+        //}
+
         await foreach (var person in reader.ReadAllAsync())
         {
             DisplayPerson(person);
