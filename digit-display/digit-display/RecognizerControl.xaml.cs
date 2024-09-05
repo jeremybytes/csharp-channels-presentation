@@ -59,7 +59,7 @@ public abstract partial class RecognizerControl : UserControl
         {
             Height = imageControl.Height,
             Width = imageControl.Width,
-            FontSize = 12 * DisplayMultiplier,
+            FontSize = 16 * DisplayMultiplier,
             TextAlignment = TextAlignment.Center,
             Text = $"{predicted}",
         };

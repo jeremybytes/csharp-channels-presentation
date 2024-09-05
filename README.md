@@ -6,7 +6,7 @@ Producer/consumer problems show up in a lot of programming scenarios, including 
 Recorded Presentation: [Using Channels in C# to Enhance Concurrent Code](https://www.youtube.com/watch?v=YxDORrTvIGM) - Dot Net North (May 2021)
 
 ## Project Layout
-To build and run the code, you will need to have .NET 7 installed on your machine. The demo project will run wherever .NET 7 will run (Windows, macOS, Linux).
+To build and run the code, you will need to have .NET 8 installed on your machine. The demo project will run wherever .NET 8 will run (Windows, macOS, Linux).
 
 **/people-demo/PeopleViewer** contains a console application that uses channels program  
 **/people-demo/People.Service** contains a service (used by the console application)  
@@ -70,5 +70,5 @@ For more additional information on this project (as well as a set of console app
 Presentation resources for understanding Task & await. Includes slides, code, videos, and articles
 * [Understanding Asynchronous Programming in C# - Virtual Training](https://github.com/jeremybytes/understanding-async-programming)  
 Virtual training resources for understanding Task, await, and parallel programming. Includes slides, code samples, and articles
-* [Workshop: Asynchronous Programming in C#](https://github.com/jeremybytes/async-workshop-nov2020)  
+* [Workshop: Asynchronous and Parallel Programming in C#](https://github.com/jeremybytes/async-workshop-2024)  
 Workshop resources for understanding Task, await, and parallel programming (including self-guided, hands-on labs). Includes slides, code samples, labs, and articles

@@ -32,7 +32,7 @@ public class ParallelChannelRecognizerControl : RecognizerControl
     {
         await Parallel.ForEachAsync(
             rawData, 
-            new ParallelOptions() { MaxDegreeOfParallelism = 6 },
+            new ParallelOptions() { MaxDegreeOfParallelism = 10 },
             async (imageData, token) =>
             {
                 var result = await classifier.Predict(imageData);
