@@ -66,6 +66,8 @@ For more additional information on this project (as well as a set of console app
 * [Channel&lt;T&gt; Class](https://docs.microsoft.com/en-us/dotnet/api/system.threading.channels.channel-1?view=net-5.0) - Microsoft Docs  
 
 ## Additional Repositories
+* [Channel Exceptions](https://github.com/jeremybytes/channel-exceptions)  
+Samples that explore exception handling for producers and consumers in parallel code.  
 * [I'll Get Back to You: Task, Await, and Asynchronous Methods in C#](https://github.com/jeremybytes/using-task-core3)  
 Presentation resources for understanding Task & await. Includes slides, code, videos, and articles
 * [Understanding Asynchronous Programming in C# - Virtual Training](https://github.com/jeremybytes/understanding-async-programming)  
