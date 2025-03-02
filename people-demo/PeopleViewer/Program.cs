@@ -69,7 +69,8 @@ class Program
         var consumer = ShowData(channel.Reader);
         var producer = ProduceData(ids, channel.Writer);
 
-        await producer;
+        // No need to await producer, so that the first item is consumed as soon as it is written to the channel.
+
         await consumer;
     }
 
